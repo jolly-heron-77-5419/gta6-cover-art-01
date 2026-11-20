@@ -3,20 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Vice Cover Studio — GTA VI-style cover maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+  <section class="panel controls" aria-label="Cover controls">
+    <header>
+      <h1>VICE COVER STUDIO</h1>
+      <p>Turn your photos into a multi-panel GTA VI-style cover. Everything runs
+      on your machine — photos are never uploaded.</p>
+    </header>
+
+    <fieldset>
+      <legend>1 · Layout</legend>
+      <div class="layouts" id="layouts">
+        <label class="layout-card"><input type="radio" name="layout" value="grid" checked>
+          <span class="diagram diagram-grid" aria-hidden="true"></span>Four Up</label>
+        <label class="layout-card"><input type="radio" name="layout" value="hero">
+          <span class="diagram diagram-hero" aria-hidden="true"></span>Hero + Duo</label>
+        <label class="layout-card"><input type="radio" name="layout" value="strips">
+          <span class="diagram diagram-strips" aria-hidden="true"></span>Three Strips</label>
+        <label class="layout-card"><input type="radio" name="layout" value="banner">
+          <span class="diagram diagram-banner" aria-hidden="true"></span>Banner + Duo</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>2 · Photos — one per panel</legend>
+      <div class="samples">
+        <span>Try a sample:</span>
+        <button type="button" data-sample="pier">Pier sunset</button>
+        <button type="button" data-sample="boulevard">Boulevard</button>
+        <button type="button" data-sample="both">Both, split</button>
+      </div>
+      <div class="slots" id="slots"></div>
+      <label class="check"><input type="checkbox" id="onePhoto">
+        Fill every panel with the first photo</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>3 · Frame the selected panel</legend>
+      <div class="panel-tabs" id="panelTabs" role="tablist"></div>
+      <label>Zoom <input id="zoom" type="range" min="1" max="2.5" step="0.01" value="1"></label>
+      <label>Pan left–right <input id="panX" type="range" min="-0.5" max="0.5" step="0.01" value="0"></label>
+      <label>Pan up–down <input id="panY" type="range" min="-0.5" max="0.5" step="0.01" value="0"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>4 · Grade, title &amp; tagline</legend>
+      <div class="grades" id="grades">
+        <label><input type="radio" name="grade" value="sunset" checked> Sunset</label>
+        <label><input type="radio" name="grade" value="neon"> Neon Night</label>
+        <label><input type="radio" name="grade" value="teal"> Teal Noir</label>
+        <label><input type="radio" name="grade" value="gold"> Golden Hour</label>
+      </div>
+      <label>Title <input id="title" type="text" maxlength="24" value="SUNSET HEIST"></label>
+      <label>Tagline <input id="tagline" type="text" maxlength="60" value="One last job. One long sunset."></label>
+      <label class="check"><input type="checkbox" id="badge" checked>
+        Show the M · Mature 17+ rating box</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>5 · Export size</legend>
+      <div class="sizes" id="sizes">
+        <label><input type="radio" name="size" value="1080x1080" checked> 1080 × 1080 <span>square</span></label>
+        <label><input type="radio" name="size" value="1080x1350"> 1080 × 1350 <span>portrait</span></label>
+        <label><input type="radio" name="size" value="1920x1080"> 1920 × 1080 <span>wide</span></label>
+      </div>
+      <button id="export" type="button">Export cover as PNG</button>
+      <p id="status" role="status"></p>
+    </fieldset>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <section class="preview" aria-label="Cover preview">
+    <canvas id="cover" width="1080" height="1080"></canvas>
+    <p class="hint">Live preview — what you see is what exports.</p>
+  </section>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
